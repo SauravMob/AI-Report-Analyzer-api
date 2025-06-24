@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: analyzer
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: deepseek-r1:7b
+          temperature: 0.2
+
+logging:
+  level:
+    com.campaign: DEBUG
+
+server:
+  port: 8090
+
+campaign:
+  api:
+    base-url: http://localhost:8080
