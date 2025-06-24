@@ -29,7 +29,7 @@ public class AnalysisService {
             // Extract campaign name and date range from query
             String campaignName = queryParserService.extractCampaignName(query);
             if (campaignName == null) {
-                return "I couldn't identify a campaign name in your query. Please specify a campaign like 'campaign 61' or 'campaign_61'.";
+                return "I couldn't identify a campaign name in your query.";
             }
 
             String[] dateRange = queryParserService.extractDateRange(query);
