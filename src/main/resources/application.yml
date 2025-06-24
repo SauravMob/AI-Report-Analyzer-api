@@ -18,4 +18,6 @@ server:
 
 api:
   base-url:
-    campaign: http://localhost:8080
+    campaign: https://ui-backendapi.mobavenue.com/api/reports/campaign/v2?pageSize=50&pageNo=0&sortBy=date&sortDirection=DESC&reportType=DATEWISE
+    creative: https://ui-backendapi.mobavenue.com/api/reports/creative/v2?pageSize=50&pageNo=0&sortBy=date&sortDirection=DESC&reportType=DATEWISE
+    siteapp: https://ui-backendapi.mobavenue.com/api/reports/siteapps/v2?pageSize=50&pageNo=0&sortBy=date&sortDirection=DESC&reportType=DATEWISE
