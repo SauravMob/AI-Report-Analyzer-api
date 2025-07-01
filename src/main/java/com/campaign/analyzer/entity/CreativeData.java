@@ -2,7 +2,7 @@ package com.campaign.analyzer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CreativeData {
+public class CreativeData implements ReportData {
 
     @JsonProperty("bids")
     private Long bids;
@@ -116,7 +116,8 @@ public class CreativeData {
         this.creativeId = creativeId;
     }
 
-    public String getCreativeName() {
+    @Override
+    public String getName() {
         return creativeName;
     }
 

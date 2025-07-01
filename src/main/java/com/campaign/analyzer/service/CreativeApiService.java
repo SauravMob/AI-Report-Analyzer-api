@@ -1,8 +1,7 @@
 package com.campaign.analyzer.service;
 
-import com.campaign.analyzer.entity.CampaignData;
-import com.campaign.analyzer.entity.CampaignReportRequest;
-import com.campaign.analyzer.entity.CampaignReportResponse;
+import com.campaign.analyzer.entity.CreativeData;
+import com.campaign.analyzer.entity.CreativeReportRequest;
 import com.campaign.analyzer.entity.ReportResponse;
 import com.campaign.analyzer.enums.ReportType;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class CampaignApiService implements ReportApiService<CampaignData> {
+public class CreativeApiService implements ReportApiService<CreativeData> {
     private final WebClient webClient;
 
-    public CampaignApiService(@Value("${api.base-url.campaign}") String baseUrl) {
+    public CreativeApiService(@Value("${api.base-url.creative}") String baseUrl) {
         this.webClient = WebClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -29,33 +26,39 @@ public class CampaignApiService implements ReportApiService<CampaignData> {
     }
 
     @Override
-    public ReportResponse<CampaignData> getReport(String campaignName, String startDate, String endDate, String bearerToken) {
-        System.out.println("getCampaignReport: " + campaignName + " : " + startDate + " : " + endDate);
+    public ReportResponse<CreativeData> getReport(String creativeName, String startDate, String endDate, String bearerToken) {
         try {
-            CampaignReportRequest request = new CampaignReportRequest(campaignName, startDate, endDate);
+            CreativeReportRequest request = new CreativeReportRequest();
+            request.setCreativeName(creativeName);
+            request.setStartDate(startDate);
+            request.setEndDate(endDate);
+            request.setInterval("daily");
+            request.setReportType("creative");
+
             return webClient.post()
+                    .uri("/creative-report") // You can adjust this endpoint
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
                     .bodyValue(request)
                     .retrieve()
-                    .bodyToMono(new ParameterizedTypeReference<ReportResponse<CampaignData>>() {
+                    .bodyToMono(new ParameterizedTypeReference<ReportResponse<CreativeData>>() {
                     })
                     .block();
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Failed to fetch campaign report: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch creative report: " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new RuntimeException("Error calling campaign API: " + e.getMessage(), e);
+            throw new RuntimeException("Error calling creative API: " + e.getMessage(), e);
         }
     }
 
     @Override
     public String extractName(String query) {
-        Pattern pattern = Pattern.compile("campaign:\\s*([^\\s]+)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("creative:\\s*([^\\s]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
         return matcher.find() ? matcher.group(1) : null;
     }
 
     @Override
     public ReportType getReportType() {
-        return ReportType.CAMPAIGN;
+        return ReportType.CREATIVE;
     }
 }
