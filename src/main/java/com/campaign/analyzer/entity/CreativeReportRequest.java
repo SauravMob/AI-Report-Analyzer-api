@@ -1,7 +1,15 @@
 package com.campaign.analyzer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class CreativeReportRequest {
     @JsonProperty("campaignId")
     private Long campaignId = 0L;
@@ -26,24 +34,4 @@ public class CreativeReportRequest {
 
     @JsonProperty("reportType")
     private String reportType;
-
-    public void setCreativeName(String creativeName) {
-        this.creativeName = creativeName;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
-    public void setReportType(String reportType) {
-        this.reportType = reportType;
-    }
 }

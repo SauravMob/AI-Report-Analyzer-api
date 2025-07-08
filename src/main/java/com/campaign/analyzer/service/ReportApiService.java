@@ -5,7 +5,7 @@ import com.campaign.analyzer.entity.ReportResponse;
 import com.campaign.analyzer.enums.ReportType;
 
 public interface ReportApiService<T extends ReportData> {
-    ReportResponse<T> getReport(String name, String startDate, String endDate, String bearerToken);
+    ReportResponse<T> getReport(String name, String startDate, String endDate, String interval, String bearerToken);
 
     String extractName(String query);
 

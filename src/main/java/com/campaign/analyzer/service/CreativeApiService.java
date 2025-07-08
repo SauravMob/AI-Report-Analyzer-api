@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,17 +27,16 @@ public class CreativeApiService implements ReportApiService<CreativeData> {
     }
 
     @Override
-    public ReportResponse<CreativeData> getReport(String creativeName, String startDate, String endDate, String bearerToken) {
+    public ReportResponse<CreativeData> getReport(String creativeName, String startDate, String endDate, String interval, String bearerToken) {
+        System.out.println("getCreativeReport: " + creativeName + " : " + startDate + " : " + endDate);
         try {
             CreativeReportRequest request = new CreativeReportRequest();
             request.setCreativeName(creativeName);
             request.setStartDate(startDate);
+            request.setInterval(interval);
             request.setEndDate(endDate);
-            request.setInterval("daily");
-            request.setReportType("creative");
 
             return webClient.post()
-                    .uri("/creative-report") // You can adjust this endpoint
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
                     .bodyValue(request)
                     .retrieve()

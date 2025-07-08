@@ -3,13 +3,12 @@ package com.campaign.analyzer.service;
 import com.campaign.analyzer.entity.ReportData;
 import com.campaign.analyzer.entity.ReportResponse;
 import com.campaign.analyzer.enums.ReportType;
-import com.campaign.analyzer.utils.DateUtils;
+import com.campaign.analyzer.utils.DateAndIntervalUtil;
 import com.campaign.analyzer.utils.EmptyDataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AnalysisService {
@@ -27,12 +26,11 @@ public class AnalysisService {
     private EmptyDataResponse emptyDataResponse;
 
     @Autowired
-    private DateUtils dateUtils;
+    private DateAndIntervalUtil dateUtils;
 
     public String analyzeQuery(String query, String bearerToken, ReportType reportType) {
         try {
             ReportApiService<? extends ReportData> apiService = getApiService(reportType);
-            // Extract campaign name and date range from query
             String name = apiService.extractName(query);
             if (name == null) {
                 return String.format("I couldn't identify a %s name in your query.", reportType.name().toLowerCase());
@@ -41,23 +39,17 @@ public class AnalysisService {
             String[] dateRange = dateUtils.extractDateRange(query);
             String startDate = dateRange[0];
             String endDate = dateRange[1];
+            String interval = dateRange[2];
 
             // Fetch report data
-            ReportResponse<? extends ReportData> reportResponse = apiService.getReport(name, startDate, endDate, bearerToken);
+            ReportResponse<? extends ReportData> reportResponse = apiService.getReport(name, startDate, endDate, interval, bearerToken);
 
             if (reportResponse == null || reportResponse.getContent() == null || reportResponse.getContent().isEmpty()) {
                 return emptyDataResponse.generateNoDataResponse(name, startDate, endDate);
             }
 
-            // Generate analysis prompt
             String analysisPrompt = buildGenericAnalysisPrompt(name, reportResponse.getContent(), startDate, endDate, query, reportType);
-
-            System.out.println("AnalysisPrompt: " + analysisPrompt);
-            // Get AI analysis
             String rawAnalysis = ollamaService.generateAnalysis(analysisPrompt);
-
-            System.out.println("Raw: " + rawAnalysis);
-
             return cleanAnalysis(rawAnalysis);
         } catch (Exception e) {
             return "Error analyzing campaign data: " + e.getMessage();

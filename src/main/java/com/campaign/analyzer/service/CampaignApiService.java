@@ -2,7 +2,6 @@ package com.campaign.analyzer.service;
 
 import com.campaign.analyzer.entity.CampaignData;
 import com.campaign.analyzer.entity.CampaignReportRequest;
-import com.campaign.analyzer.entity.CampaignReportResponse;
 import com.campaign.analyzer.entity.ReportResponse;
 import com.campaign.analyzer.enums.ReportType;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,10 +27,13 @@ public class CampaignApiService implements ReportApiService<CampaignData> {
     }
 
     @Override
-    public ReportResponse<CampaignData> getReport(String campaignName, String startDate, String endDate, String bearerToken) {
+    public ReportResponse<CampaignData> getReport(String campaignName, String startDate, String endDate, String interval, String bearerToken) {
         System.out.println("getCampaignReport: " + campaignName + " : " + startDate + " : " + endDate);
         try {
-            CampaignReportRequest request = new CampaignReportRequest(campaignName, startDate, endDate);
+            CampaignReportRequest request = new CampaignReportRequest();
+            request.setCampaignName(campaignName);
+            request.setStartDate(startDate);
+            request.setEndDate(endDate);
             return webClient.post()
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
                     .bodyValue(request)

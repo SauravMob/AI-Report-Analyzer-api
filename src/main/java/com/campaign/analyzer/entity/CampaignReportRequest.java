@@ -1,7 +1,15 @@
 package com.campaign.analyzer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class CampaignReportRequest {
     @JsonProperty("accountManager")
     private Integer accountManager = 0;
@@ -26,10 +34,4 @@ public class CampaignReportRequest {
 
     @JsonProperty("startDate")
     private String startDate;
-
-    public CampaignReportRequest(String campaignName, String startDate, String endDate) {
-        this.campaignName = campaignName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
 }

@@ -1,7 +1,11 @@
 package com.campaign.analyzer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CampaignData implements ReportData {
     @JsonProperty("bids")
     private Long bids;
@@ -90,25 +94,5 @@ public class CampaignData implements ReportData {
     @Override
     public String getName() {
         return campaignName;
-    }
-
-    public Long getClicks() {
-        return clicks;
-    }
-
-    public Double getCtr() {
-        return ctr;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public Long getImpressions() {
-        return impressions;
-    }
-
-    public Double getSpends() {
-        return spends;
     }
 }
