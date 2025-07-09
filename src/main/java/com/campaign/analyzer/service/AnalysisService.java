@@ -44,6 +44,8 @@ public class AnalysisService {
             // Fetch report data
             ReportResponse<? extends ReportData> reportResponse = apiService.getReport(name, startDate, endDate, interval, bearerToken);
 
+            System.out.println("ReportResponse: " + reportResponse);
+
             if (reportResponse == null || reportResponse.getContent() == null || reportResponse.getContent().isEmpty()) {
                 return emptyDataResponse.generateNoDataResponse(name, startDate, endDate);
             }

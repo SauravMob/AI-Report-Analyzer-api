@@ -1,9 +1,11 @@
 package com.campaign.analyzer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString
 public class ReportResponse<D> {
     @JsonProperty("content")
     private List<D> content;

@@ -35,6 +35,9 @@ public class CampaignApiService implements ReportApiService<CampaignData> {
             request.setStartDate(startDate);
             request.setEndDate(endDate);
             return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .queryParam("reportType", "DATEWISE")
+                            .build())
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
                     .bodyValue(request)
                     .retrieve()

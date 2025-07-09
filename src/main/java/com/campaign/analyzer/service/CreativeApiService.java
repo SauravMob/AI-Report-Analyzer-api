@@ -33,8 +33,9 @@ public class CreativeApiService implements ReportApiService<CreativeData> {
             CreativeReportRequest request = new CreativeReportRequest();
             request.setCreativeName(creativeName);
             request.setStartDate(startDate);
-            request.setInterval(interval);
+            request.setInterval("CUSTOM");
             request.setEndDate(endDate);
+            request.setReportType("DATEWISE");
 
             return webClient.post()
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
