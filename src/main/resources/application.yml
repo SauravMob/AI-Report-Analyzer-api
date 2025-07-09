@@ -18,5 +18,5 @@ server:
 
 api:
   base-url:
-    campaign: https://ui-backendapi.mobavenue.com/api/reports/campaign/v2
-    creative: https://ui-backendapi.mobavenue.com/api/reports/creative/v2
+    campaign: ${API_BASE_URL_CAMPAIGN}
+    creative: ${API_BASE_URL_CREATIVE}
