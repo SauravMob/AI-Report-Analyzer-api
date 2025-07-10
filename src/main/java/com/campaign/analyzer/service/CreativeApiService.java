@@ -45,9 +45,11 @@ public class CreativeApiService implements ReportApiService<CreativeData> {
                     })
                     .block();
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Failed to fetch creative report: " + e.getMessage(), e);
+            System.err.println("Creative API error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            return null; // Return null instead of throwing exception to enable fallback
         } catch (Exception e) {
-            throw new RuntimeException("Error calling creative API: " + e.getMessage(), e);
+            System.err.println("Creative API connection error: " + e.getMessage());
+            return null; // Return null instead of throwing exception to enable fallback
         }
     }
 

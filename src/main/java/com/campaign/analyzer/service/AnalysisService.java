@@ -51,6 +51,7 @@ public class AnalysisService {
             }
 
             String analysisPrompt = buildGenericAnalysisPrompt(name, reportResponse.getContent(), startDate, endDate, query, reportType);
+            System.out.println("AnalysisPrompt: " + analysisPrompt);
             String rawAnalysis = ollamaService.generateAnalysis(analysisPrompt);
             return cleanAnalysis(rawAnalysis);
         } catch (Exception e) {

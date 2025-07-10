@@ -45,9 +45,11 @@ public class CampaignApiService implements ReportApiService<CampaignData> {
                     })
                     .block();
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Failed to fetch campaign report: " + e.getMessage(), e);
+            System.err.println("Campaign API error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            return null; // Return null instead of throwing exception to enable fallback
         } catch (Exception e) {
-            throw new RuntimeException("Error calling campaign API: " + e.getMessage(), e);
+            System.err.println("Campaign API connection error: " + e.getMessage());
+            return null; // Return null instead of throwing exception to enable fallback
         }
     }
 
